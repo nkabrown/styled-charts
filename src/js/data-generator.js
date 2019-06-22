@@ -3,15 +3,24 @@ import ChartContainer from './ChartContainer';
 import { FrequencyPolygon } from './FrequencyPolygon';
 const d3 = require('../lib/d3.min.js');
 
-export const dataGenerator = (mount, dataPath, template, caseName) => {
+export const dataGenerator = (mount, dataPath, template, caseName, style) => {
   d3.csv(dataPath, (error, data) => {
     if (error) throw error;
 
     d3.text(template, str => {
 
+      const ChartSheet = new CSSStyleSheet();
+      ChartSheet.replace(`@import url("src/css/${style}")`)
+          .then(sheet => {
+            console.log(`successfully imported ${style} styles.`);
+          })
+          .catch(error => {
+            console.log('ERROR: ', error);
+          });
       const box = d3.select('.container').append('chart-container').attr('id', mount).node();
       const shadowRoot = box.shadowRoot;
       shadowRoot.innerHTML = str;
+      shadowRoot.adoptedStyleSheets = [ChartSheet];
 
       switchcaseF({
         'FREQ-POLY': () => new FrequencyPolygon(shadowRoot, data, 'both', `#${mount}`, {top:20,right:20,bottom:60,left:45}, 570, 465, '', 'Strong, E. K., Jr. Nineteen-year followup of engineer interests. J. appl. Psychol., 1952, 36, 65-74.').init(),

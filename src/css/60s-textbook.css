@@ -1,97 +1,12 @@
-html,
-body {
+text {
+  fill: #000;
   font-family: "Stymie", "Baskerville", serif;
 }
 
-.container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-figure {
-  width: 490px;
-}
-
-figcaption {
-  font-weight: 700;
-  text-align: center;
-  white-space: pre-wrap;
-}
-
-table {
-  margin: 15px 0;
-}
-
-thead tr {
-  height: 30px;
-}
-
-td,
-th {
-  padding-right: 15px;
-}
-
-th {
-  font-size: 11px;
-  font-weight: 200;
-  width: 25px;
-}
-
-td {
-  text-align: center;
-  font-size: 13px;
-}
-
-#freq-table th:nth-child(even),
-#freq-table td:nth-child(even) {
-  text-align: right;
-  padding-right: 40px;
-}
-
-#freq-table th:nth-child(odd),
-#freq-table td:nth-child(odd) {
-  padding-left: 40px;
-}
-
-td[data-symbol='N'] {
-  padding-right: 0;
-  text-align: right;
-}
-
-.total {
-  height: 22px;
-  line-height: 22px;
-  margin-left: 35px;
-  padding-right: 0;
-  letter-spacing: 6px;
-  text-align: right;
-}
-
-.lineover {
-  border-top: 2px solid #444;
-  padding: 0;
-}
-
-small {
-  white-space: pre;
-  font-size: 9px;
-}
-
-#table th {
-  width: 175px;
-  padding-left: 15px;
-}
-
-#table tr td {
-  width: 20%;
-  padding: 0;
-  padding-right: 0;
-}
-
-#table td:nth-child(3) {
-  padding-right: 75px;
-  padding-left: 75px;
+path {
+  fill: none;
+  stroke: #000;
+  stroke-width: 2;
 }
 
 .x-axis line,
@@ -110,6 +25,12 @@ small {
 .x-axis .tick text,
 .y-axis .tick text {
   font-family: "Stymie", "Baskerville", serif;
+}
+
+circle {
+  fill: #fff;
+  stroke: #000;
+  stroke-width: 1.2;
 }
 
 rect.polygon-background {

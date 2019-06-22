@@ -2086,10 +2086,8 @@ var _dataGenerator = __webpack_require__(2);
 
 var d3 = __webpack_require__(0);
 
-(0, _dataGenerator.dataGenerator)('freq-polygon-1', 'src/data/engineering-interest.csv', 'src/template/chart.html', 'FREQ-POLY-ENG');
-(0, _dataGenerator.dataGenerator)('freq-polygon-2', 'src/data/engineering-interest.csv', 'src/template/chart.html', 'FREQ-POLY-ENG');
-(0, _dataGenerator.dataGenerator)('freq-polygon-3', 'src/data/engineering-interest.csv', 'src/template/chart.html', 'FREQ-POLY-ENG');
-(0, _dataGenerator.dataGenerator)('freq-polygon-4', 'src/data/engineering-interest.csv', 'src/template/chart.html', 'FREQ-POLY-ENG');
+(0, _dataGenerator.dataGenerator)('freq-polygon-1', 'src/data/engineering-interest.csv', 'src/template/chart.html', 'FREQ-POLY-ENG', '60s-textbook.css');
+(0, _dataGenerator.dataGenerator)('freq-polygon-2', 'src/data/engineering-interest.csv', 'src/template/chart.html', 'FREQ-POLY-ENG', 'axios.css');
 
 /***/ }),
 /* 2 */
@@ -2113,15 +2111,22 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var d3 = __webpack_require__(0);
 
-var dataGenerator = exports.dataGenerator = function dataGenerator(mount, dataPath, template, caseName) {
+var dataGenerator = exports.dataGenerator = function dataGenerator(mount, dataPath, template, caseName, style) {
   d3.csv(dataPath, function (error, data) {
     if (error) throw error;
 
     d3.text(template, function (str) {
 
+      var ChartSheet = new CSSStyleSheet();
+      ChartSheet.replace('@import url("src/css/' + style + '")').then(function (sheet) {
+        console.log('successfully imported ' + style + ' styles.');
+      }).catch(function (error) {
+        console.log('ERROR: ', error);
+      });
       var box = d3.select('.container').append('chart-container').attr('id', mount).node();
       var shadowRoot = box.shadowRoot;
       shadowRoot.innerHTML = str;
+      shadowRoot.adoptedStyleSheets = [ChartSheet];
 
       switchcaseF({
         'FREQ-POLY': function FREQPOLY() {
@@ -2161,15 +2166,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var ChartSheet = new CSSStyleSheet();
 
 var ChartContainer = function (_HTMLElement) {
   _inherits(ChartContainer, _HTMLElement);
@@ -2180,20 +2181,8 @@ var ChartContainer = function (_HTMLElement) {
     var _this = _possibleConstructorReturn(this, (ChartContainer.__proto__ || Object.getPrototypeOf(ChartContainer)).call(this));
 
     var shadowRoot = _this.attachShadow({ mode: 'open' });
-    shadowRoot.adoptedStyleSheets = [ChartSheet];
     return _this;
   }
-
-  _createClass(ChartContainer, [{
-    key: 'connectedCallback',
-    value: function connectedCallback() {
-      ChartSheet.replace('@import url("src/css/60s-textbook.css")').then(function (sheet) {
-        console.log('imports added');
-      }).catch(function (error) {
-        console.log('ERROR: ', error);
-      });
-    }
-  }]);
 
   return ChartContainer;
 }(HTMLElement);
@@ -2266,13 +2255,13 @@ var FrequencyPolygon = exports.FrequencyPolygon = function () {
             })]);
             y.domain([0, 20]);
 
-            graph.append('g').attr('class', 'x-axis').attr('transform', 'translate(0, ' + this.height + ')').call(xAxis).append('text').attr('x', 93).attr('y', 45).style('fill', '#000').style('font-family', 'Baskerville').style('font-size', 14).text('midpoint of class interval').attr('text-anchor', 'start');
+            graph.append('g').attr('class', 'x-axis').attr('transform', 'translate(0, ' + this.height + ')').call(xAxis).append('text').attr('x', 93).attr('y', 45).style('font-size', 14).text('midpoint of class interval').attr('text-anchor', 'start');
 
-            graph.append('g').attr('class', 'y-axis').call(yAxis).append('text').attr('x', -52).attr('y', -35).style('fill', '#000').style('font-family', 'Baskerville').style('font-size', 14).text('percent of cases').attr('text-anchor', 'end').attr('transform', 'rotate(-90)');
+            graph.append('g').attr('class', 'y-axis').call(yAxis).append('text').attr('x', -52).attr('y', -35).style('font-size', 14).text('percent of cases').attr('text-anchor', 'end').attr('transform', 'rotate(-90)');
 
-            var firstXAxis = d3.selectAll(this.identity + ' svg g.x-axis .tick').nodes()[0];
+            var firstXAxis = d3.select(this.mount).selectAll('svg g.x-axis .tick').nodes()[0];
             d3.select(firstXAxis).attr('visibility', 'hidden');
-            var firstYAxis = d3.selectAll(this.identity + ' svg g.y-axis .tick').nodes()[0];
+            var firstYAxis = d3.select(this.mount).selectAll('svg g.y-axis .tick').nodes()[0];
             d3.select(firstYAxis).attr('visibility', 'hidden');
 
             var line = d3.line().x(function (d) {
@@ -2281,17 +2270,20 @@ var FrequencyPolygon = exports.FrequencyPolygon = function () {
                 return y(d.percent);
             });
 
-            graph.append('path').datum(data.reverse()).attr('d', line).style('fill', 'none').style('stroke', '#000').style('stroke-width', 2);
+            graph.append('path').datum(data.reverse()).attr('d', line);
 
             graph.selectAll('.datum-point').data(data.reverse()).enter().append('circle').attr('cx', function (d) {
                 return x(d.midpoint);
             }).attr('cy', function (d) {
                 return y(d.percent);
-            }).attr('r', 2).style('fill', '#fff').style('stroke', '#000').style('stroke-width', 1.2);
+            }).attr('r', 2);
+            //.style('fill', '#fff')
+            //.style('stroke', '#000')
+            //.style('stroke-width', 1.2);
 
             graph.append('text').attr('x', 24).attr('y', 27).text(this.selection);
 
-            d3.select(this.identity + ' small').text(this.attribution);
+            d3.select(this.mount).select('small').text(this.attribution);
         }
     }, {
         key: 'coerce',

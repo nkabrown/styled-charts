@@ -1,0 +1,37 @@
+text {
+  fill: #848484;
+  font-family: "Liberation Mono Regular", monospace;
+}
+
+path {
+  fill: none;
+  stroke: rgb(101,51,255);
+  stroke-width: 2px;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+
+.x-axis path,
+.y-axis path {
+  display: none;
+}
+
+.x-axis .tick line,
+.y-axis .tick line {
+  display: block;
+  stroke: #dcdcdc;
+  stroke-width: .5;
+}
+
+circle {
+  fill: none;
+}
+
+rect.polygon-background {
+  fill: #fff;
+}
+
+.polygons {
+  display: flex;
+  flex-direction: row;
+}

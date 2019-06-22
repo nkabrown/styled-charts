@@ -58,8 +58,6 @@ export class FrequencyPolygon {
         .append('text')
         .attr('x', 93)
         .attr('y', 45)
-        .style('fill', '#000')
-        .style('font-family', 'Baskerville')
         .style('font-size', 14)
         .text('midpoint of class interval')
         .attr('text-anchor', 'start');
@@ -70,16 +68,14 @@ export class FrequencyPolygon {
         .append('text')
         .attr('x', -52)
         .attr('y', -35)
-        .style('fill', '#000')
-        .style('font-family', 'Baskerville')
         .style('font-size', 14)
         .text('percent of cases')
         .attr('text-anchor', 'end')
         .attr('transform', 'rotate(-90)');
 
-    const firstXAxis = d3.selectAll(`${this.identity} svg g.x-axis .tick`).nodes()[0]
+    const firstXAxis = d3.select(this.mount).selectAll(`svg g.x-axis .tick`).nodes()[0]
     d3.select(firstXAxis).attr('visibility', 'hidden');
-    const firstYAxis = d3.selectAll(`${this.identity} svg g.y-axis .tick`).nodes()[0];
+    const firstYAxis = d3.select(this.mount).selectAll(`svg g.y-axis .tick`).nodes()[0];
     d3.select(firstYAxis).attr('visibility', 'hidden');
 
     const line = d3.line()
@@ -88,10 +84,7 @@ export class FrequencyPolygon {
 
     graph.append('path')
         .datum(data.reverse())
-        .attr('d', line)
-        .style('fill', 'none')
-        .style('stroke', '#000')
-        .style('stroke-width', 2);
+        .attr('d', line);
 
     graph.selectAll('.datum-point')
         .data(data.reverse())
@@ -99,16 +92,16 @@ export class FrequencyPolygon {
         .attr('cx', d => x(d.midpoint))
         .attr('cy', d => y(d.percent))
         .attr('r', 2)
-        .style('fill', '#fff')
-        .style('stroke', '#000')
-        .style('stroke-width', 1.2);
+        //.style('fill', '#fff')
+        //.style('stroke', '#000')
+        //.style('stroke-width', 1.2);
 
     graph.append('text')
         .attr('x', 24)
         .attr('y', 27)
         .text(this.selection);
 
-    d3.select(`${this.identity} small`)
+    d3.select(this.mount).select(`small`)
         .text(this.attribution);
   }
 
