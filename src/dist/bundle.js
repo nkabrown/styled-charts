@@ -2103,7 +2103,13 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.dataGenerator = undefined;
 
-var _FrequencyPolygon = __webpack_require__(3);
+var _ChartContainer = __webpack_require__(3);
+
+var _ChartContainer2 = _interopRequireDefault(_ChartContainer);
+
+var _FrequencyPolygon = __webpack_require__(4);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var d3 = __webpack_require__(0);
 
@@ -2112,17 +2118,20 @@ var dataGenerator = exports.dataGenerator = function dataGenerator(mount, dataPa
     if (error) throw error;
 
     d3.text(template, function (str) {
-      d3.select('.container').append('div').attr('id', mount).html(str);
+
+      var box = d3.select('.container').append('chart-container').attr('id', mount).node();
+      var shadowRoot = box.shadowRoot;
+      shadowRoot.innerHTML = str;
 
       switchcaseF({
         'FREQ-POLY': function FREQPOLY() {
-          return new _FrequencyPolygon.FrequencyPolygon('#freq-polygon-1 svg', data, 'both', '#freq-polygon-1', { top: 20, right: 20, bottom: 60, left: 45 }, 570, 465, '', 'Strong, E. K., Jr. Nineteen-year followup of engineer interests. J. appl. Psychol., 1952, 36, 65-74.').init();
+          return new _FrequencyPolygon.FrequencyPolygon(shadowRoot, data, 'both', '#' + mount, { top: 20, right: 20, bottom: 60, left: 45 }, 570, 465, '', 'Strong, E. K., Jr. Nineteen-year followup of engineer interests. J. appl. Psychol., 1952, 36, 65-74.').init();
         },
         'FREQ-POLY-ENG': function FREQPOLYENG() {
-          return new _FrequencyPolygon.FrequencyPolygon('#' + mount + ' svg', data, 'engineers', '#' + mount, { top: 20, right: 20, bottom: 60, left: 45 }, 375, 265, '', '').init();
+          return new _FrequencyPolygon.FrequencyPolygon(shadowRoot, data, 'engineers', '#' + mount, { top: 20, right: 20, bottom: 60, left: 45 }, 375, 265, '', '').init();
         },
         'FREQ-POLY-FRESH': function FREQPOLYFRESH() {
-          return new _FrequencyPolygon.FrequencyPolygon('#freq-polygon-3 svg', data, 'freshmen', '#freq-polygon-3', { top: 20, right: 20, bottom: 60, left: 45 }, 375, 265, '', '').init();
+          return new _FrequencyPolygon.FrequencyPolygon(shadowRoot, data, 'freshmen', '#' + mount, { top: 20, right: 20, bottom: 60, left: 45 }, 375, 265, '', '').init();
         }
       })(caseName);
     });
@@ -2143,6 +2152,59 @@ var switchcaseF = function switchcaseF(cases) {
 
 /***/ }),
 /* 3 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var ChartSheet = new CSSStyleSheet();
+
+var ChartContainer = function (_HTMLElement) {
+  _inherits(ChartContainer, _HTMLElement);
+
+  function ChartContainer() {
+    _classCallCheck(this, ChartContainer);
+
+    var _this = _possibleConstructorReturn(this, (ChartContainer.__proto__ || Object.getPrototypeOf(ChartContainer)).call(this));
+
+    var shadowRoot = _this.attachShadow({ mode: 'open' });
+    shadowRoot.adoptedStyleSheets = [ChartSheet];
+    return _this;
+  }
+
+  _createClass(ChartContainer, [{
+    key: 'connectedCallback',
+    value: function connectedCallback() {
+      ChartSheet.replace('@import url("src/css/60s-textbook.css")').then(function (sheet) {
+        console.log('imports added');
+      }).catch(function (error) {
+        console.log('ERROR: ', error);
+      });
+    }
+  }]);
+
+  return ChartContainer;
+}(HTMLElement);
+
+exports.default = ChartContainer;
+
+
+customElements.define('chart-container', ChartContainer);
+
+/***/ }),
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2178,9 +2240,9 @@ var FrequencyPolygon = exports.FrequencyPolygon = function () {
         value: function init() {
             var _this = this;
 
-            d3.select(this.identity + ' figcaption').text(this.caption);
+            d3.select(this.mount).select('figcaption').text(this.caption);
 
-            var graph = d3.select(this.mount).attr('width', this.width + this.margin.right + this.margin.left).attr('height', this.height + this.margin.bottom + this.margin.top).append('g').attr('transform', 'translate(' + this.margin.left + ', ' + this.margin.top + ')');
+            var graph = d3.select(this.mount).select('svg').attr('width', this.width + this.margin.right + this.margin.left).attr('height', this.height + this.margin.bottom + this.margin.top).append('g').attr('transform', 'translate(' + this.margin.left + ', ' + this.margin.top + ')');
 
             graph.append('rect').attr('class', 'polygon-background').attr('width', this.width + this.margin.right + this.margin.left - 11.5).attr('height', this.height).attr('transform', 'translate(0, 0)');
 

@@ -15,10 +15,11 @@ export class FrequencyPolygon {
   }
 
   init() {
-    d3.select(`${this.identity} figcaption`)
+    d3.select(this.mount)
+        .select('figcaption')
         .text(this.caption);
 
-    const graph = d3.select(this.mount)
+    const graph = d3.select(this.mount).select('svg')
         .attr('width', this.width + this.margin.right + this.margin.left)
         .attr('height', this.height + this.margin.bottom + this.margin.top)
       .append('g')
