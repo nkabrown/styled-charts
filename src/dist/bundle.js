@@ -2087,7 +2087,7 @@ var _dataGenerator = __webpack_require__(2);
 var d3 = __webpack_require__(0);
 
 (0, _dataGenerator.dataGenerator)('freq-polygon-1', 'src/data/engineering-interest.csv', 'src/template/chart.html', 'FREQ-POLY-ENG', '60s-textbook.css');
-(0, _dataGenerator.dataGenerator)('freq-polygon-2', 'src/data/engineering-interest.csv', 'src/template/chart.html', 'FREQ-POLY-ENG', 'axios.css');
+(0, _dataGenerator.dataGenerator)('freq-polygon-2', 'src/data/engineering-interest.csv', 'src/template/chart.html', 'FREQ-POLY-ENG', 'modern.css');
 
 /***/ }),
 /* 2 */
@@ -2277,9 +2277,6 @@ var FrequencyPolygon = exports.FrequencyPolygon = function () {
             }).attr('cy', function (d) {
                 return y(d.percent);
             }).attr('r', 2);
-            //.style('fill', '#fff')
-            //.style('stroke', '#000')
-            //.style('stroke-width', 1.2);
 
             graph.append('text').attr('x', 24).attr('y', 27).text(this.selection);
 

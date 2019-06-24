@@ -18,9 +18,7 @@ path {
 
 .x-axis .tick line,
 .y-axis .tick line {
-  display: block;
-  stroke: #dcdcdc;
-  stroke-width: .5;
+  display: none;
 }
 
 circle {

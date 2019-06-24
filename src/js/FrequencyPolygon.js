@@ -91,10 +91,7 @@ export class FrequencyPolygon {
       .enter().append('circle')
         .attr('cx', d => x(d.midpoint))
         .attr('cy', d => y(d.percent))
-        .attr('r', 2)
-        //.style('fill', '#fff')
-        //.style('stroke', '#000')
-        //.style('stroke-width', 1.2);
+        .attr('r', 2);
 
     graph.append('text')
         .attr('x', 24)
